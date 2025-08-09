@@ -1,5 +1,5 @@
  // Substitua a URL abaixo pela URL do seu Apps Script
-    const appsScriptUrl = "https://script.google.com/macros/s/AKfycbzUCM9cmNl0WhfIf7qw8lmy9bLLXYHUj433GCbTxzm-j_KKjp_5l2D0o1A6k5AkOPjD/exec";
+    const appsScriptUrl = "https://script.google.com/macros/s/AKfycbylHgTgQj_pY-EVsY_wtthERG-TrJTALB1dioH_AZDr2S4gY7oxHJP0ZzZtRvdQz93c/exec";
 
     // Função para obter o IP do usuário (opcional, mas útil)
     async function getIpAddress() {
