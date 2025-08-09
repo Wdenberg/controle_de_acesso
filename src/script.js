@@ -1,50 +1,32 @@
+ // Substitua a URL abaixo pela URL do seu Apps Script
+    const appsScriptUrl = "https://script.google.com/macros/s/AKfycbzUCM9cmNl0WhfIf7qw8lmy9bLLXYHUj433GCbTxzm-j_KKjp_5l2D0o1A6k5AkOPjD/exec";
 
+    // Função para obter o IP do usuário (opcional, mas útil)
+    async function getIpAddress() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        } catch (error) {
+            console.error('Erro ao obter o IP:', error);
+            return 'Desconhecido';
+        }
+    }
 
-const dataAtual = new Date();
-const dataFormatada = `${dataAtual.getDate()}/${dataAtual.getMonth() + 1}/${dataAtual.getFullYear()} ${dataAtual.getHours()}:${dataAtual.getMinutes()}:${dataAtual.getSeconds()}`;
+    // Função para enviar os dados ao Apps Script
+    async function sendAccessLog() {
+        const ip = await getIpAddress();
+        const url = `${appsScriptUrl}?ipAddress=${ip}`;
 
-console.log(dataFormatada);
-const idUrl = 'AKfycbxLR-yHB5HNxcsUOTwD474UdL2Os_93bHCfA9w0-IhNFGIQXDfwYZNxVrBGofTAqBCJ';
-const WEB_APP_URL = `https://script.google.com/macros/s/${idUrl}/exec`;
+        fetch(url)
+            .then(response => {
+                // Você pode adicionar um console.log para depuração
+                // console.log('Log de acesso enviado:', response);
+            })
+            .catch(error => {
+                console.error('Erro ao enviar o log de acesso:', error);
+            });
+    }
 
-/**
- * Registra o acesso à página na planilha do Google Sheets.
- */
-async function registrarAcesso() {
-  try {
-    // Cria um objeto com os dados
-    const data = {
-      timestamp: new Date().toISOString(),
-      page: window.location.pathname,
-      userAgent: navigator.userAgent
-    };
-    
-    // Converte o objeto em uma string de consulta (Query String)
-    const queryString = new URLSearchParams(data).toString();
-
-    // Configura as opções para a requisição POST
-    const fetchOptions = {
-      method: 'POST',
-      body: queryString, // Envia como string de consulta
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded' // Tipo de conteúdo que não dispara preflight
-      }
-    };
-
-    // Envia a requisição para a API do Apps Script
-    const apiResponse = await fetch(WEB_APP_URL, fetchOptions);
-    const result = await apiResponse.json();
-    
-    console.log('Resultado do registro:', result);
-
-  } catch (error) {
-    console.error('Erro ao registrar acesso:', error);
-  }
-}
-
-// Chama a função para registrar o acesso assim que a página é carregada
-document.addEventListener('DOMContentLoaded', registrarAcesso);
-
-// Chama a função para registrar o acesso assim que a página é carregada
-document.addEventListener('DOMContentLoaded', registrarAcesso);
-
+    // Chama a função quando a página é carregada
+    window.onload = sendAccessLog;
