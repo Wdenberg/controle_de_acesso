@@ -5,7 +5,7 @@ const dataFormatada = `${dataAtual.getDate()}/${dataAtual.getMonth() + 1}/${data
 
 console.log(dataFormatada);
 
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw8HeGykTpPX-vpivJ_LeMYhElVn-iL71urgx-SG7UvI1s0Q7CTfsGCKWpfeTFEpzif/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz_kQLK3DC3EYh7LXmjtqZDxn4VLeamhZnQJihgNZ29RJo7A6ckAh-kAm9T8e9_E1_Z/exec';
 /**
  * Registra o acesso à página na planilha do Google Sheets.
  */
