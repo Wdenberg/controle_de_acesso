@@ -4,26 +4,30 @@ const dataAtual = new Date();
 const dataFormatada = `${dataAtual.getDate()}/${dataAtual.getMonth() + 1}/${dataAtual.getFullYear()} ${dataAtual.getHours()}:${dataAtual.getMinutes()}:${dataAtual.getSeconds()}`;
 
 console.log(dataFormatada);
+const idUrl = 'AKfycbxLR-yHB5HNxcsUOTwD474UdL2Os_93bHCfA9w0-IhNFGIQXDfwYZNxVrBGofTAqBCJ';
+const WEB_APP_URL = `https://script.google.com/macros/s/${idUrl}/exec`;
 
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz_kQLK3DC3EYh7LXmjtqZDxn4VLeamhZnQJihgNZ29RJo7A6ckAh-kAm9T8e9_E1_Z/exec';
 /**
  * Registra o acesso à página na planilha do Google Sheets.
  */
 async function registrarAcesso() {
   try {
-    // Cria o objeto com os dados para enviar para o Apps Script
+    // Cria um objeto com os dados
     const data = {
-      timestamp: new Date().toISOString(), // Captura a data e hora atuais no formato ISO 8601
-      page: window.location.pathname,     // Pega a URL da página atual
-      userAgent: navigator.userAgent      // Pega o navegador e OS do usuário
+      timestamp: new Date().toISOString(),
+      page: window.location.pathname,
+      userAgent: navigator.userAgent
     };
+    
+    // Converte o objeto em uma string de consulta (Query String)
+    const queryString = new URLSearchParams(data).toString();
 
     // Configura as opções para a requisição POST
     const fetchOptions = {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: queryString, // Envia como string de consulta
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded' // Tipo de conteúdo que não dispara preflight
       }
     };
 
@@ -37,6 +41,9 @@ async function registrarAcesso() {
     console.error('Erro ao registrar acesso:', error);
   }
 }
+
+// Chama a função para registrar o acesso assim que a página é carregada
+document.addEventListener('DOMContentLoaded', registrarAcesso);
 
 // Chama a função para registrar o acesso assim que a página é carregada
 document.addEventListener('DOMContentLoaded', registrarAcesso);
